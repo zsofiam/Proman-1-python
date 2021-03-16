@@ -30,14 +30,35 @@ export let dom = {
         `;
 
         let boardsContainer = document.querySelector('#boards');
+        boardsContainer.innerHTML = '';
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        // dataHandler.getCardsByBoardId(boardId, function(cards){
+        //     dom.showCards(cards);
+        // });
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        // let cardList = '';
+        //
+        // for(let card of cards){
+        //     cardList += `
+        //         <li>${card.title}</li>
+        //     `;
+        // }
+        //
+        // const outerHtml = `
+        //     <ul class="card-container">
+        //         ${cardList}
+        //     </ul>
+        // `;
+        //
+        // let cardsContainer = document.querySelector('#cards');
+        // cardsContainer.innerHTML = '';
+        // cardsContainer.insertAdjacentHTML("beforeend", outerHtml);
     },
     // here comes more features
 };

@@ -38,3 +38,15 @@ def register_user(cursor: RealDictCursor, username, hashed_password):
 def get_user_data_by_username(cursor: RealDictCursor, username):
     cursor.execute("SELECT * FROM users WHERE username = %s;", [username])
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_boards(cursor: RealDictCursor):
+    cursor.execute("SELECT * FROM boards;")
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_cards_for_board(cursor: RealDictCursor, board_id):
+    cursor.execute("SELECT * FROM cards WHERE board_id = %s;", [board_id])
+    return cursor.fetchall()
