@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan</title>
+        <title>ProMan Login</title>
 
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
@@ -12,16 +12,17 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-        <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <a href="/register">Register</a>
-        <a href="/login">Login</a>
-        <a href="/logout">Logout</a>
-        <h1>ProMan</h1>
-        <form action="/create-board" method="get"><input type="submit" value="Create new board"></form>
-        <div id="boards">Boards are loading...</div>
-        <div id="cards">Cards should go here</div>
-
+        <h1>Create Board</h1>
+        <form action="/create-board" method="post">
+            <div class="form-group">
+                <label for="title">Username:</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter board title">
+            </div>
+            <label for="public">Public </label><input type="radio" name="open" id="public" checked><br>
+            <label for="public">Private</label><input type="radio" name="open" id="private"><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </body>
 </html>

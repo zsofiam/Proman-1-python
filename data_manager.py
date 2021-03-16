@@ -50,3 +50,14 @@ def get_boards(cursor: RealDictCursor):
 def get_cards_for_board(cursor: RealDictCursor, board_id):
     cursor.execute("SELECT * FROM cards WHERE board_id = %s;", [board_id])
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def create_board(cursor: RealDictCursor, title, owner_id, is_open):
+    cursor.execute("INSERT INTO boards (title, owner, open) VALUES (%s, %s, %s);", (title, owner_id, is_open))
+
+
+@database_common.connection_handler
+def get_user_id_by_name(cursor: RealDictCursor, username):
+    cursor.execute("SELECT id FROM users WHERE username = %s;", [username])
+    return cursor.fetchone()
