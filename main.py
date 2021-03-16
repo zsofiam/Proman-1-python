@@ -91,8 +91,11 @@ def create_board():
         return render_template('create_board.html')
     else:
         title = request.form["title"]
-        owner = session["username"]
-        owner_id = data_manager.get_user_id_by_name(owner)["id"]
+        if 'username' in session:
+            owner = session["username"]
+            owner_id = data_manager.get_user_id_by_name(owner)["id"]
+        else:
+            owner_id = None
         is_open = True if request.form["open"] == "public" else False
         data_manager.create_board(title, owner_id, is_open)
         return redirect("/")
