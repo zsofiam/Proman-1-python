@@ -85,5 +85,18 @@ def main():
         app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
 
 
+@app.route("/create-board", methods=['GET', 'POST'])
+def create_board():
+    if request.method == 'GET':
+        return render_template('create_board.html')
+    else:
+        title = request.form["title"]
+        owner = session["username"]
+        owner_id = data_manager.get_user_id_by_name(owner)["id"]
+        is_open = True if request.form["open"] == "public" else False
+        data_manager.create_board(title, owner_id, is_open)
+        return redirect("/")
+
+
 if __name__ == '__main__':
     main()
