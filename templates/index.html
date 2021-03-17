@@ -11,6 +11,7 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/design.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
@@ -19,8 +20,8 @@
         <a href="/logout">Logout</a>
         <h1>ProMan</h1>
         <form action="/create-board" method="get"><input type="submit" value="Create new board"></form>
-        <div id="boards">Boards are loading...</div>
+        <div id="boards">Boards are loading...
+        </div>
         <div id="cards">Cards should go here</div>
-
     </body>
 </html>
