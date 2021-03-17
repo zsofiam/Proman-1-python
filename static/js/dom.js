@@ -20,7 +20,7 @@ export let dom = {
             let boardHeaderDiv = `
                 <section>
                     <div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
-                        <button class="board-add">Add Card</button>
+                        <button id="board-add-${board.id}">Add Card</button>
                         <button class="board-toggle" id="board-close-${board.id}"><i class="fas fa-chevron-up"></i></button>
                     </div>
                     <div class="board-columns" id="board-column-${board.id}"></div>
@@ -37,9 +37,11 @@ export let dom = {
             let titleSpan = document.querySelector(`span[data-id = "${board.id}"]`);
             let closeBoardBtn = document.querySelector(`#board-close-${board.id}`);
             let boardColumn = document.querySelector(`#board-column-${board.id}`);
+            let addCardButton = document.getElementById(`board-add-${board.id}`);
             titleSpan.addEventListener("dblclick", dom.displayInputField);
             closeBoardBtn.addEventListener('click', function() {
                 boardColumn.classList.toggle('hidden');
+                addCardButton.classList.toggle('hidden');
                 (boardColumn.classList.contains('hidden')) ?
                     closeBoardBtn.innerHTML = '<i class="fas fa-chevron-down"></i>' :
                     closeBoardBtn.innerHTML = '<i class="fas fa-chevron-up"></i>'

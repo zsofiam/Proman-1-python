@@ -1,4 +1,4 @@
-.board-columns.hidden {
+.board-columns.hidden, .hidden {
     display: none;
 }
 
