@@ -13,7 +13,11 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    if 'username' in session:
+        username = session["username"]
+    else:
+        username = None
+    return render_template('index.html', username=username)
 
 
 @app.route("/design")
@@ -100,15 +104,32 @@ def main():
 @app.route("/create-board", methods=['GET', 'POST'])
 def create_board():
     if request.method == 'GET':
-        return render_template('create_board.html')
+        private = False
+        return render_template('create_board.html', private=private)
     else:
+        # user can create public board even if not logged in
         title = request.form["title"]
         if 'username' in session:
             owner = session["username"]
             owner_id = data_manager.get_user_id_by_name(owner)["id"]
         else:
             owner_id = None
-        is_open = request.form["open"] == "public"
+        is_open = True
+        data_manager.create_board(title, owner_id, is_open)
+        return redirect("/")
+
+
+@app.route("/create-private-board", methods=['GET', 'POST'])
+def create_private_board():
+    if request.method == 'GET':
+        private = True
+        return render_template('create_board.html', private=private)
+    else:
+        # user can create private board only when logged in
+        title = request.form["title"]
+        owner = session["username"]
+        owner_id = data_manager.get_user_id_by_name(owner)["id"]
+        is_open = False
         data_manager.create_board(title, owner_id, is_open)
         return redirect("/")
 

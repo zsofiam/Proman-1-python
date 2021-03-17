@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan Login</title>
+{% extends 'layout.html' %}
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-        <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body>
+{% block content %}
+    {% if private is false %}
         <h1>Create Board</h1>
         <form action="/create-board" method="post">
-            <div class="form-group">
-                <label for="title">Username:</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Enter board title">
-            </div>
-            <label for="public">Public </label><input type="radio" name="open" value="public" id="public" checked><br>
-            <label for="public">Private</label><input type="radio" name="open" value="private" id="private"><br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </body>
-</html>
+    {% else %}
+        <h1>Create Private Board</h1>
+        <form action="/create-private-board" method="post">
+    {% endif %}
+        <div class="form-group">
+            <label for="title">Enter board title:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Board title">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+{% endblock %}

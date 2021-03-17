@@ -22,6 +22,7 @@ export let dom = {
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
             </div>`;
             outerHtml += boardHeaderDiv;
+            outerHtml += dom.showStatusesOnBoard();
             outerHtml += `</section>`;
         }
         let boardContainer = document.querySelector('#boards');
@@ -81,24 +82,22 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
-    loadStatuses: function () {
-        // retrieves boards and makes showBoards called
-        dataHandler.getStatuses(function(statuses){
-            dom.showStatuses(statuses);
-        });
-    },
-    showStatusesOnBoard: function (statuses){
-        let Html = '';
-        for(let status of statuses) {
-            Html += `<div class="board-columns">
+    showStatusesOnBoard: async function() {
+        let statuses = await dataHandler.getStatuses()
+        .then(statuses => {
+            let Html = '';
+            for (let status of statuses) {
+                console.log(status.title);
+                Html += `<div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">${status.title}</div>
                     <div class="board-column-content">
   
                     </div>
                 </div>`
-        }
-        return Html;
+            }
+            return Html;
+        })
     }
 
 };
