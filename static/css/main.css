@@ -4,9 +4,20 @@
 
 section {
     background-color: green;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-button, input[type = 'submit'] {
-    cursor: pointer;
+form {
+    float: left;
+    clear: right;
+    padding-right: 15px;
+}
+
+#logged_in {
+    padding-right: 15px;
+}
+
+.center-items {
+    display: flex;
+    justify-content: center;
 }

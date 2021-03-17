@@ -2,12 +2,8 @@
 
 {% block content %}
 
-        <h1>Login</h1>
-        {% if user_check == False %}
-            <div class="alert alert-danger" role="alert">
-                Wrong username or password!
-            </div>
-        {% endif %}
+    <h1>Login</h1>
+    <div class="center-items">
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="user">Username:</label>
@@ -19,5 +15,10 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+    </div>
+    <br>
+    {% if user_check == False %}
+        <div class="center-items" role="alert">Wrong username or password!</div>
+    {% endif %}
 
 {% endblock %}
