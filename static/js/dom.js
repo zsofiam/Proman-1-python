@@ -60,21 +60,42 @@ export let dom = {
             statusColumn.innerHTML = '';
             Html += `<div class="board-column">
                         <div class="board-column-title">${status.title}</div>
-                        <div class="board-column-content"></div>
+                        <div class="board-column-content" id="status-${boardId}-${status.id}"></div>
                     </div>
             `
             statusColumn.innerHTML += Html;
+            dom.loadCards(boardId, status.id);
         }
     },
-    loadCards: function (boardId) {
+    loadCards: function (boardId, statusId) {
         // retrieves cards and makes showCards called
-        // dataHandler.getCardsByBoardId(boardId, function(cards){
-        //     dom.showCards(cards);
-        // });
+        dataHandler.getCardsByBoardId(boardId, function(cards){
+            dom.showCards(cards, boardId, statusId);
+        });
     },
-    showCards: function (cards) {
+    showCards: function (cards, boardId, statusId) {
         // shows the cards of a board
         // it adds necessary event listeners also
+        let statusBody = document.getElementById(`status-${boardId}-${statusId}`);
+        statusBody.innerHTML = '';
+        let html = '';
+        for (let card of cards){
+            if (card.status_id === statusId){
+                console.log(card.id);
+                html += `<div class="card">
+                        <div class="card-remove">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <div class="card-title">${card.title}</div>
+                    </div>`
+            }
+        }
+    statusBody.innerHTML = html;
+        console.log('new status')
+
+
+
+
         // let cardList = '';
         //
         // for(let card of cards){
