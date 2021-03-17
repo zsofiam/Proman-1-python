@@ -46,15 +46,13 @@ export let dataHandler = {
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
     },
-    getStatuses: async function () {
+    getStatuses: function (boardId, callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
-        let callback = (response) => {
-            dataHandler._data['statuses'] = response;
-            console.log(dataHandler._data['statuses']);
-            return dataHandler._data['statuses'];
-        };
-        dataHandler._api_get(`/get-statuses`, callback);
-        return this._data['statuses'];
+        this._api_get(`/get-status/${boardId}`, (response) => {
+            this._data['statuses'] = response;
+            callback(response);
+        });
+
     },
     getStatus: function (statusId, callback) {
         // the status is retrieved and then the callback function is called with the status

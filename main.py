@@ -75,9 +75,9 @@ def get_boards():
     return boards
 
 
-@app.route("/get-statuses")
+@app.route("/get-status/<int:board_id>")
 @json_response
-def get_statuses():
+def get_statuses(board_id):
     statuses = data_manager.get_statuses()
     return statuses
 

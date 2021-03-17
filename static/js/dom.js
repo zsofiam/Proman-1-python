@@ -17,13 +17,16 @@ export let dom = {
 
         let outerHtml = '';
         for(let board of boards){
-            let boardHeaderDiv = `<section><div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>`;
+            let boardHeaderDiv = `
+                <section>
+                    <div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="board-columns"></div>
+                </section><br>
+            `;
             outerHtml += boardHeaderDiv;
-            outerHtml += dom.showStatusesOnBoard();
-            outerHtml += `</section>`;
         }
         let boardContainer = document.querySelector('#boards');
         boardContainer.classList.add("board-container");
@@ -33,6 +36,26 @@ export let dom = {
         for(let board of boards) {
             let titleSpan = document.querySelector(`span[data-id = "${board.id}"]`);
             titleSpan.addEventListener("dblclick", dom.displayInputField);
+            dom.loadStatuses(board.id);
+        }
+    },
+    loadStatuses: function (boardId) {
+        // retrieves boards and makes showBoards called
+        dataHandler.getStatuses(boardId, function(statuses){
+            dom.showStatuses(statuses);
+        });
+    },
+    showStatuses: function(statuses) {
+        let Html = '';
+        for (let status of statuses) {
+            let statusColumn = document.querySelector('.board-columns');
+            statusColumn.innerHTML = '';
+            Html += `<div class="board-column">
+                        <div class="board-column-title">${status.title}</div>
+                        <div class="board-column-content"></div>
+                    </div>
+            `
+            statusColumn.innerHTML += Html;
         }
     },
     loadCards: function (boardId) {
@@ -82,22 +105,22 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
-    showStatusesOnBoard: async function() {
-        let statuses = await dataHandler.getStatuses()
-        .then(statuses => {
-            let Html = '';
-            for (let status of statuses) {
-                console.log(status.title);
-                Html += `<div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">${status.title}</div>
-                    <div class="board-column-content">
-  
-                    </div>
-                </div>`
-            }
-            return Html;
-        })
-    }
+    // showStatusesOnBoard: async function() {
+    //     let statuses = await dataHandler.getStatuses()
+    //     .then(statuses => {
+    //         let Html = '';
+    //         for (let status of statuses) {
+    //             console.log(status.title);
+    //             Html += `<div class="board-columns">
+    //             <div class="board-column">
+    //                 <div class="board-column-title">${status.title}</div>
+    //                 <div class="board-column-content">
+    //
+    //                 </div>
+    //             </div>`
+    //         }
+    //         return Html;
+    //     })
+    // }
 
 };
