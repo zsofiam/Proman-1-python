@@ -101,7 +101,7 @@ def create_board():
             owner_id = data_manager.get_user_id_by_name(owner)["id"]
         else:
             owner_id = None
-        is_open = True if request.form["open"] == "public" else False
+        is_open = request.form["open"] == "public"
         data_manager.create_board(title, owner_id, is_open)
         return redirect("/")
 
