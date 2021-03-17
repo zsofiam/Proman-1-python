@@ -47,6 +47,12 @@ def get_boards(cursor: RealDictCursor):
 
 
 @database_common.connection_handler
+def get_statuses(cursor: RealDictCursor):
+    cursor.execute("SELECT * FROM statuses ORDER BY id;")
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_cards_for_board(cursor: RealDictCursor, board_id):
     cursor.execute("SELECT * FROM cards WHERE board_id = %s;", [board_id])
     return cursor.fetchall()

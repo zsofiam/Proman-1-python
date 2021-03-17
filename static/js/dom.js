@@ -14,8 +14,7 @@ export let dom = {
         });
     },
     showBoards: function (boards) {
-        /*let outerHtml = document.createElement('div');
-        outerHtml.classList.add('.board-container');*/
+
         let outerHtml = '';
         for(let board of boards){
             let boardHeaderDiv = `<section><div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
@@ -81,7 +80,25 @@ export let dom = {
     },
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
+    },
+    loadStatuses: function () {
+        // retrieves boards and makes showBoards called
+        dataHandler.getStatuses(function(statuses){
+            dom.showStatuses(statuses);
+        });
+    },
+    showStatusesOnBoard: function (statuses){
+        let Html = '';
+        for(let status of statuses) {
+            Html += `<div class="board-columns">
+                <div class="board-column">
+                    <div class="board-column-title">${status.title}</div>
+                    <div class="board-column-content">
+  
+                    </div>
+                </div>`
+        }
+        return Html;
     }
-
 
 };
