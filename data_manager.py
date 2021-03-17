@@ -42,7 +42,7 @@ def get_user_data_by_username(cursor: RealDictCursor, username):
 
 @database_common.connection_handler
 def get_boards(cursor: RealDictCursor):
-    cursor.execute("SELECT * FROM boards;")
+    cursor.execute("SELECT * FROM boards ORDER BY id;")
     return cursor.fetchall()
 
 
@@ -61,3 +61,8 @@ def create_board(cursor: RealDictCursor, title, owner_id, is_open):
 def get_user_id_by_name(cursor: RealDictCursor, username):
     cursor.execute("SELECT id FROM users WHERE username = %s;", [username])
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def modify_board_title(cursor: RealDictCursor, data):
+    cursor.execute("UPDATE boards SET title = %s WHERE id = %s;", (data.get("title"), data.get("id")))

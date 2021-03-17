@@ -101,5 +101,14 @@ def create_board():
         return redirect("/")
 
 
+@app.route("/modify-board-title", methods=['GET', 'POST'])
+@json_response
+def modify_board_title():
+    if request.method == 'POST':
+        if request.get_json():
+            data = request.get_json()
+            data_manager.modify_board_title(data)
+
+
 if __name__ == '__main__':
     main()
