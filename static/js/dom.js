@@ -21,10 +21,10 @@ export let dom = {
                 <section>
                     <div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
-                        <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                        <button class="board-toggle" id="board-close-${board.id}"><i class="fas fa-chevron-up"></i></button>
                     </div>
                     <div class="board-columns" id="board-column-${board.id}"></div>
-                </section><br>
+                </section>
             `;
             outerHtml += boardHeaderDiv;
         }
@@ -35,7 +35,15 @@ export let dom = {
         // Add event listeners to board titles
         for(let board of boards) {
             let titleSpan = document.querySelector(`span[data-id = "${board.id}"]`);
+            let closeBoardBtn = document.querySelector(`#board-close-${board.id}`);
+            let boardColumn = document.querySelector(`#board-column-${board.id}`);
             titleSpan.addEventListener("dblclick", dom.displayInputField);
+            closeBoardBtn.addEventListener('click', function() {
+                boardColumn.classList.toggle('hidden');
+                (boardColumn.classList.contains('hidden')) ?
+                    closeBoardBtn.innerHTML = '<i class="fas fa-chevron-down"></i>' :
+                    closeBoardBtn.innerHTML = '<i class="fas fa-chevron-up"></i>'
+            });
             dom.loadStatuses(board.id);
         }
     },
