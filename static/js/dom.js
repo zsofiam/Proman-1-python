@@ -1,6 +1,8 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
 
+
+
 export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
@@ -12,26 +14,18 @@ export let dom = {
         });
     },
     showBoards: function (boards) {
-        // shows boards appending them to #boards div
-        // it adds necessary event listeners also
-
-        let boardList = '';
-
+        let outerHtml = document.createElement('ul');
+        outerHtml.classList.add("board-container");
         for(let board of boards){
-            boardList += `
-                <li>${board.title}</li>
-            `;
+            let li = document.createElement('li');
+            li.innerHTML = board.title;
+            li.dataset.Id = board.id;
+            li.addEventListener("dblclick", dom.displayInputField);
+            outerHtml.appendChild(li);
         }
-
-        const outerHtml = `
-            <ul class="board-container">
-                ${boardList}
-            </ul>
-        `;
-
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.innerHTML = '';
-        boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        boardsContainer.appendChild(outerHtml);
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -60,5 +54,26 @@ export let dom = {
         // cardsContainer.innerHTML = '';
         // cardsContainer.insertAdjacentHTML("beforeend", outerHtml);
     },
-    // here comes more features
+    displayInputField: function(event) {
+        let currentTitle = this.innerHTML;
+        let input = document.createElement("input");
+        input.value = currentTitle;
+        let saveButton = document.createElement("button");
+        saveButton.innerHTML = "Save";
+        saveButton.addEventListener("click", dom.saveData);
+        this.innerHTML = '';
+        this.appendChild(input);
+        this.appendChild(saveButton);
+    },
+    saveData: function(event) {
+    let boardId = this.parentElement.dataset.Id;
+    let newTitle = this.parentElement.firstChild.value;
+    dataHandler.modifyBoardTitle(boardId, newTitle);
+    dom.displayLiWithNewTitle(newTitle, this);
+    },
+    displayLiWithNewTitle: function(newTitle, domObject){
+        domObject.parentElement.innerHTML = newTitle;
+    }
+
+
 };
