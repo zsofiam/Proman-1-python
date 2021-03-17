@@ -1,3 +1,12 @@
-#boards {
+.board-columns.hidden {
+    display: none;
+}
+
+section {
     background-color: green;
+    margin-bottom: 10px;
+}
+
+button, input[type = 'submit'] {
+    cursor: pointer;
 }

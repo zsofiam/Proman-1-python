@@ -14,18 +14,57 @@ export let dom = {
         });
     },
     showBoards: function (boards) {
-        let outerHtml = document.createElement('ul');
-        outerHtml.classList.add("board-container");
+
+        let outerHtml = '';
         for(let board of boards){
-            let li = document.createElement('li');
-            li.innerHTML = board.title;
-            li.dataset.Id = board.id;
-            li.addEventListener("dblclick", dom.displayInputField);
-            outerHtml.appendChild(li);
+            let boardHeaderDiv = `
+                <section>
+                    <div class="board-header"><span data-id="${board.id}" class="board-title">${board.title}</span>
+                        <button class="board-add">Add Card</button>
+                        <button class="board-toggle" id="board-close-${board.id}"><i class="fas fa-chevron-up"></i></button>
+                    </div>
+                    <div class="board-columns" id="board-column-${board.id}"></div>
+                </section>
+            `;
+            outerHtml += boardHeaderDiv;
         }
-        let boardsContainer = document.querySelector('#boards');
-        boardsContainer.innerHTML = '';
-        boardsContainer.appendChild(outerHtml);
+        let boardContainer = document.querySelector('#boards');
+        boardContainer.classList.add("board-container");
+        boardContainer.innerHTML = '';
+        boardContainer.insertAdjacentHTML( 'beforeend', outerHtml);
+        // Add event listeners to board titles
+        for(let board of boards) {
+            let titleSpan = document.querySelector(`span[data-id = "${board.id}"]`);
+            let closeBoardBtn = document.querySelector(`#board-close-${board.id}`);
+            let boardColumn = document.querySelector(`#board-column-${board.id}`);
+            titleSpan.addEventListener("dblclick", dom.displayInputField);
+            closeBoardBtn.addEventListener('click', function() {
+                boardColumn.classList.toggle('hidden');
+                (boardColumn.classList.contains('hidden')) ?
+                    closeBoardBtn.innerHTML = '<i class="fas fa-chevron-down"></i>' :
+                    closeBoardBtn.innerHTML = '<i class="fas fa-chevron-up"></i>'
+            });
+            dom.loadStatuses(board.id);
+        }
+    },
+    loadStatuses: function (boardId) {
+        // retrieves boards and makes showBoards called
+        dataHandler.getStatuses(boardId, function(statuses){
+            dom.showStatuses(boardId, statuses);
+        });
+    },
+    showStatuses: function(boardId, statuses) {
+        let Html = '';
+        for (let status of statuses) {
+            let statusColumn = document.querySelector(`#board-column-${boardId}`);
+            statusColumn.innerHTML = '';
+            Html += `<div class="board-column">
+                        <div class="board-column-title">${status.title}</div>
+                        <div class="board-column-content"></div>
+                    </div>
+            `
+            statusColumn.innerHTML += Html;
+        }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -66,14 +105,30 @@ export let dom = {
         this.appendChild(saveButton);
     },
     saveData: function(event) {
-    let boardId = this.parentElement.dataset.Id;
+    let boardId = this.parentElement.dataset.id;
     let newTitle = this.parentElement.firstChild.value;
     dataHandler.modifyBoardTitle(boardId, newTitle);
-    dom.displayLiWithNewTitle(newTitle, this);
+    dom.displaySpanWithNewTitle(newTitle, this);
     },
-    displayLiWithNewTitle: function(newTitle, domObject){
+    displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
-    }
-
+    },
+    // showStatusesOnBoard: async function() {
+    //     let statuses = await dataHandler.getStatuses()
+    //     .then(statuses => {
+    //         let Html = '';
+    //         for (let status of statuses) {
+    //             console.log(status.title);
+    //             Html += `<div class="board-columns">
+    //             <div class="board-column">
+    //                 <div class="board-column-title">${status.title}</div>
+    //                 <div class="board-column-content">
+    //
+    //                 </div>
+    //             </div>`
+    //         }
+    //         return Html;
+    //     })
+    // }
 
 };
