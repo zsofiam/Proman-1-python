@@ -23,7 +23,7 @@ export let dom = {
                         <button class="board-add">Add Card</button>
                         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
-                    <div class="board-columns"></div>
+                    <div class="board-columns" id="board-column-${board.id}"></div>
                 </section><br>
             `;
             outerHtml += boardHeaderDiv;
@@ -42,13 +42,13 @@ export let dom = {
     loadStatuses: function (boardId) {
         // retrieves boards and makes showBoards called
         dataHandler.getStatuses(boardId, function(statuses){
-            dom.showStatuses(statuses);
+            dom.showStatuses(boardId, statuses);
         });
     },
-    showStatuses: function(statuses) {
+    showStatuses: function(boardId, statuses) {
         let Html = '';
         for (let status of statuses) {
-            let statusColumn = document.querySelector('.board-columns');
+            let statusColumn = document.querySelector(`#board-column-${boardId}`);
             statusColumn.innerHTML = '';
             Html += `<div class="board-column">
                         <div class="board-column-title">${status.title}</div>
