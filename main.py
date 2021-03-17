@@ -16,6 +16,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/design")
+def design():
+    return render_template('design.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     input_check = True
