@@ -161,5 +161,16 @@ def delete_card():
             data_manager.delete_card(data)
 
 
+@app.route("/edit-card/<int:card_id>", methods=['POST','GET'])
+@json_response
+def edit_card(card_id:int):
+    if request.method == 'POST':
+        print("post on server")
+        print(request.get_json())
+        if request.get_json():
+            data = request.get_json()
+            data_manager.modify_card_content(data, card_id)
+
+
 if __name__ == '__main__':
     main()
