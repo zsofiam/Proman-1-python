@@ -10,7 +10,6 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
         });
-        console.log("is this the end?")
     },
     showBoards: function (boards) {
 
@@ -52,7 +51,6 @@ export let dom = {
             });
             dom.loadStatuses(board.id);
         }
-        console.log("showboard end")
     },
     loadStatuses: function (boardId) {
         // retrieves boards and makes showBoards called
@@ -71,16 +69,40 @@ export let dom = {
                     </div>
             `
             statusColumn.innerHTML += Html;
+            let dropZone = document.querySelector(`#status-${boardId}-${status.id}`);
+            dropZone.addEventListener("dragenter", dom.dragEnterCard);
+            dropZone.addEventListener("dragover", dom.dragOverCard);
+            dropZone.addEventListener("dragleave", dom.dragLeaveCard);
+            dropZone.addEventListener("drop", dom.dropCard);
             dom.loadCards(boardId, status.id);
         }
-        console.log("showstatus end")
+    },
+    dragEnterCard: function (e){
+        if (e.dataTransfer.types.includes('type/dragged-box')) {
+            e.preventDefault();
+        }
+        e.currentTarget.classList.add('drop-over');
+    },
+    dragOverCard: function (e){
+        if (e.dataTransfer.types.includes('type/dragged-box')) {
+            e.preventDefault();
+            e.dataTransfer.effectAllowed = "move";
+        }
+    },
+    dragLeaveCard: function (e){
+        e.currentTarget.classList.remove('drop-over');
+    },
+    dropCard: function (e){
+        e.preventDefault();
+        e.dataTransfer.effectAllowed = "move";
+        let data = e.dataTransfer.getData("text/plain");
+        e.currentTarget.appendChild(data);
     },
     loadCards: function (boardId, statusId) {
         // retrieves cards and makes showCards called
         dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards, boardId, statusId);
         });
-        console.log("load cards end")
     },
     showCards: function (cards, boardId, statusId) {
         // shows the cards of a board
@@ -90,7 +112,7 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                html += `<div class="card" data-id="${card.id}" draggable="True">
+                html += `<div id="card-${card.id}" class="card" data-id="${card.id}" draggable="True">
                         <div class="card-remove" id="card-remove-${card.id}">
          
                             <i class="fas fa-trash-alt"></i>
@@ -103,13 +125,28 @@ export let dom = {
         for (let card of cards){
             if (card.status_id === statusId){
                 let cardRemoveBtn = document.querySelector(`#card-remove-${card.id}`);
+                let draggableCard = document.getElementById(`card-${card.id}`);
                 cardRemoveBtn.addEventListener('click', function() {
                     dataHandler.deleteCard(`${card.id}`);
                     dom.loadStatuses(boardId);
-                })
+                });
+                draggableCard.addEventListener("dragstart", dom.startDragCard);
+                draggableCard.addEventListener("drag", dom.dragCard);
+                draggableCard.addEventListener("dragend", dom.endDragCard);
             }
         }
-         console.log("showcard end")
+    },
+    startDragCard: function (e){
+        e.currentTarget.classList.add("dragged");
+        e.dataTransfer.setData("type/dragged-box", 'dragged');
+        e.dataTransfer.setData("text/plain", e.target.id);
+        e.dataTransfer.effectAllowed = "move";
+    },
+    dragCard: function (e){
+
+    },
+    endDragCard: function (e){
+        e.currentTarget.classList.remove("dragged");
     },
     createCard: function(boardId) {
         dataHandler.createNewCard(boardId) ;

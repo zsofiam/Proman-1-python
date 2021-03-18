@@ -21,3 +21,12 @@ form {
     display: flex;
     justify-content: center;
 }
+.dragged {
+    opacity: 0.5;
+}
+.drop-zones {
+    border: 1px solid darkgreen;
+}
+.drop-over {
+    border: 1px solid black;
+}
