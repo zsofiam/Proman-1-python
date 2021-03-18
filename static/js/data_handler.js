@@ -83,7 +83,7 @@ export let dataHandler = {
         console.log("modify");
         const data = { id: cardId.toString(),
             title: newContent };
-        this._api_post(`/edit-card/${cardId}`,data,(response) => {
+        this._api_post(`/edit-card/${cardId}`, data,(response) => {
             console.log(response)})
     }
 };

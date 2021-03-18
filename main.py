@@ -143,5 +143,14 @@ def modify_board_title():
             data_manager.modify_board_title(data)
 
 
+@app.route("/edit-card/<int:card_id>", methods=['POST','GET'])
+@json_response
+def edit_card(card_id):
+    if request.method == 'POST':
+        if request.get_json():
+            data = request.get_json()
+            data_manager.modify_card_content(data, card_id)
+
+
 if __name__ == '__main__':
     main()

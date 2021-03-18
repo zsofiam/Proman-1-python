@@ -72,3 +72,8 @@ def get_user_id_by_name(cursor: RealDictCursor, username):
 @database_common.connection_handler
 def modify_board_title(cursor: RealDictCursor, data):
     cursor.execute("UPDATE boards SET title = %s WHERE id = %s;", (data.get("title"), data.get("id")))
+
+
+@database_common.connection_handler
+def modify_card_content(cursor: RealDictCursor, data, card_id):
+    cursor.execute("UPDATE cards SET title = %s WHERE id = %s;", (data.get("title"), card_id))
