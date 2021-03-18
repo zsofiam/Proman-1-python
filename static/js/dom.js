@@ -142,25 +142,6 @@ export let dom = {
         this.appendChild(input);
         let cardId = input.parentElement.dataset.cardId;
         dom.addEventListenersToInputField(input, cardId, currentTitle);
-
-        /*input.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                let newContent = this.value;
-                dataHandler.modifyCardContent(cardId, newContent);
-                dom.displayNewCard(cardId, newContent);
-            }
-            else if (e.key === 'Escape') {
-                console.log(e.key);
-                dom.displayNewCard(cardId, currentTitle);
-            }
-            else {
-                console.log(e.key + "pressed");
-            }
-        });
-        input.addEventListener('focusout', function (e) {
-            console.log(e);
-            dom.displayNewCard(cardId, currentTitle);
-        });*/
     },
     addEventListenersToInputField: function(input, cardId, currentTitle){
         let enterPressed = false;
