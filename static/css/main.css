@@ -24,6 +24,10 @@ form {
 .dragged {
     opacity: 0.5;
 }
-.drop-zones {
-    border: 2px solid darkgreen;
+.drop-zones, .board-column-content:empty.drop-zones {
+    border: 3px solid darkgreen;
+    border-radius: 10px;
+}
+i.fas.fa-trash-alt {
+    font-size: 16px;
 }

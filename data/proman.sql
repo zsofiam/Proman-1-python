@@ -45,15 +45,16 @@ INSERT INTO boards (title, open) VALUES ('Board 1', 'true'), ('Board 2', 'true')
 
 INSERT INTO statuses (title) VALUES ('new'), ('in progress'), ('testing'), ('done');
 
-INSERT INTO cards (board_id, title, status_id, "order") VALUES (1, 'new card 1', 1, 0),
-                         (1, 'new card 2', 1, 1),
-                         (1, 'in progress card', 2, 0),
-                         (1, 'planning', 3, 0),
-                         (1, 'done card 1', 4, 0),
-                         (1, 'done card 2', 4, 1),
-                         (2, 'new card 1', 1, 0),
-                         (2, 'new card 2', 1, 1),
-                         (2, 'in progress card', 2, 0),
-                         (2, 'planning', 3, 0),
-                         (2, 'done card 1', 4, 0),
-                         (2, 'done card 2', 4, 1);
+INSERT INTO cards (board_id, title, status_id, "order") VALUES (1, 'New card', 1, 0),
+                         (1, 'In progress card 1', 2, 0),
+                         (1, 'In progress card 2', 2, 1),
+                         (1, 'Testing card', 3, 0),
+                         (1, 'Done card 1', 4, 0),
+                         (1, 'Done card 2', 4, 1),
+                         (2, 'New card 1', 1, 0),
+                         (2, 'New card 2', 1, 1),
+                         (2, 'In progress card', 2, 0),
+                         (2, 'Testing card', 3, 0),
+                         (2, 'Done card 1', 4, 0),
+                         (2, 'Done card 2', 4, 1),
+                         (2, 'Done card 3', 4, 2);

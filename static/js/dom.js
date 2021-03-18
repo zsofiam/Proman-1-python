@@ -63,8 +63,9 @@ export let dom = {
         for (let status of statuses) {
             let statusColumn = document.querySelector(`#board-column-${boardId}`);
             statusColumn.innerHTML = '';
+            let title = status.title.toUpperCase();
             Html += `<div class="board-column" data-id="${boardId}">
-                        <div class="board-column-title">${status.title}</div>
+                        <div class="board-column-title">${title}</div>
                         <div class="board-column-content" id="status-${boardId}-${status.id}"></div>
                     </div>
             `
@@ -109,12 +110,11 @@ export let dom = {
         for (let card of cards){
             if (card.status_id === statusId){
                 html += `<div id="card-${card.id}" class="card" data-id="${card.id}" draggable="True">
-                        <div class="card-remove" id="card-remove-${card.id}">
-         
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                        <div data-card-id="${card.id}" class="card-title">${card.title}</div>
-                    </div>`
+                            <div class="card-remove" id="card-remove-${card.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div data-card-id="${card.id}" class="card-title">${card.title}</div>
+                        </div>`
             }
         }
         statusBody.innerHTML = html;
