@@ -143,5 +143,23 @@ def modify_board_title():
             data_manager.modify_board_title(data)
 
 
+@app.route("/create-card", methods=["GET", "POST"])
+@json_response
+def create_card():
+    if request.method == 'POST':
+        if request.get_json():
+            data = request.get_json()
+            data_manager.create_card(data)
+
+
+@app.route("/delete-card", methods=["GET", "POST"])
+@json_response
+def delete_card():
+    if request.method == 'POST':
+        if request.get_json():
+            data = request.get_json()
+            data_manager.delete_card(data)
+
+
 if __name__ == '__main__':
     main()

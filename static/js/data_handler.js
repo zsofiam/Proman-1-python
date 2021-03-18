@@ -29,7 +29,6 @@ export let dataHandler = {
         })
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));
-
     },
     init: function () {
     },
@@ -52,7 +51,6 @@ export let dataHandler = {
             this._data['statuses'] = response;
             callback(response);
         });
-
     },
     getStatus: function (statusId, callback) {
         // the status is retrieved and then the callback function is called with the status
@@ -70,27 +68,19 @@ export let dataHandler = {
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
     },
-    createNewCard: function (cardTitle, boardId, statusId, callback) {
+    createNewCard: function (boardId, callback) {
         // creates new card, saves it and calls the callback function with its data
+        const data = { board_id: boardId.toString() };
+        this._api_post("/create-card", data, (response) => {});
+    },
+    deleteCard: function (cardId, callback) {
+        const data = { card_id: cardId.toString() }
+        this._api_post("/delete-card", data, (response) => {});
     },
     modifyBoardTitle: function(boardId, newTitle, callback){
         const data = { id: boardId.toString(),
             title: newTitle };
         this._api_post('/modify-board-title',data,(response) => {
             console.log(response)})
-       /* fetch('/modify-board-title', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });*/
     }
 };
