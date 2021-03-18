@@ -73,6 +73,10 @@ export let dataHandler = {
         const data = { board_id: boardId.toString() };
         this._api_post("/create-card", data, (response) => {});
     },
+    deleteCard: function (cardId, callback) {
+        const data = { card_id: cardId.toString() }
+        this._api_post("/delete-card", data, (response) => {});
+    },
     modifyBoardTitle: function(boardId, newTitle, callback){
         const data = { id: boardId.toString(),
             title: newTitle };

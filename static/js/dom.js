@@ -86,8 +86,8 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                html += `<div class="card">
-                        <div class="card-remove">
+                html += `<div class="card" data-id="${card.id}">
+                        <div class="card-remove" id="card-remove-${card.id}">
                             <i class="fas fa-trash-alt"></i>
                         </div>
                         <div class="card-title">${card.title}</div>
@@ -95,6 +95,15 @@ export let dom = {
             }
         }
         statusBody.innerHTML = html;
+        for (let card of cards){
+            if (card.status_id === statusId){
+                let cardRemoveBtn = document.querySelector(`#card-remove-${card.id}`);
+                cardRemoveBtn.addEventListener('click', function() {
+                    dataHandler.deleteCard(`${card.id}`);
+                    dom.loadStatuses(boardId);
+                })
+            }
+        }
     },
     createCard: function(boardId) {
         dataHandler.createNewCard(boardId) ;
