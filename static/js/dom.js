@@ -71,6 +71,28 @@ export let dom = {
             statusColumn.innerHTML += Html;
             dom.loadCards(boardId, status.id);
         }
+        for (let status of statuses){
+            let dropZone = document.querySelector(`#status-${boardId}-${status.id}`);
+            dropZone.addEventListener("dragenter", dom.dragEnterCard);
+            dropZone.addEventListener("dragover", dom.dragOverCard);
+            dropZone.addEventListener("dragleave", dom.dragLeaveCard);
+            dropZone.addEventListener("drop", dom.dropCard);
+        }
+    },
+    dragEnterCard: function (e){
+            e.preventDefault();
+
+    },
+    dragOverCard: function (e){
+            e.preventDefault();
+    },
+    dragLeaveCard: function (e){
+
+    },
+    dropCard: function (e){
+        let card = document.querySelector(".dragged");
+        this.appendChild(card);
+        e.preventDefault();
     },
     loadCards: function (boardId, statusId) {
         // retrieves cards and makes showCards called
@@ -86,8 +108,9 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                html += `<div class="card" data-id="${card.id}">
+                html += `<div id="card-${card.id}" class="card" data-id="${card.id}" draggable="True">
                         <div class="card-remove" id="card-remove-${card.id}">
+         
                             <i class="fas fa-trash-alt"></i>
                         </div>
                         <div data-card-id="${card.id}" class="card-title">${card.title}</div>
@@ -100,11 +123,36 @@ export let dom = {
 
             if (card.status_id === statusId){
                 let cardRemoveBtn = document.querySelector(`#card-remove-${card.id}`);
+                let draggableCard = document.getElementById(`card-${card.id}`);
                 cardRemoveBtn.addEventListener('click', function() {
                     dataHandler.deleteCard(`${card.id}`);
                     dom.loadStatuses(boardId);
-                })
+                });
+                draggableCard.addEventListener("dragstart", dom.startDragCard);
+                draggableCard.addEventListener("drag", dom.dragCard);
+                draggableCard.addEventListener("dragend", dom.endDragCard);
             }
+        }
+    },
+    startDragCard: function (e){
+        e.currentTarget.classList.add("dragged");
+        // e.dataTransfer.setData("type/dragged-box", 'dragged');
+        e.dataTransfer.setData("text/plain", e.currentTarget.textContent.trim());
+        // e.dataTransfer.effectAllowed = "move";
+        let zones = document.getElementsByClassName('board-column-content');
+        for (let zone of zones) {
+            zone.classList.add('drop-zones');
+        }
+    },
+    dragCard: function (e){
+
+    },
+    endDragCard: function (e){
+        e.currentTarget.classList.remove("dragged");
+        e.dataTransfer.clearData();
+        let zones = document.getElementsByClassName('board-column-content');
+        for (let zone of zones) {
+            zone.classList.remove('drop-zones');
         }
     },
     createCard: function(boardId) {
@@ -135,8 +183,6 @@ export let dom = {
     displayCardInputField: function() {
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
-        console.log(this.parentElement);
-        let parent = this.parentElement;
         input.value = currentTitle;
         this.innerHTML = '';
         this.appendChild(input);
