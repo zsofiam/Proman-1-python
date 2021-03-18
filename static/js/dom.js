@@ -83,18 +83,16 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                console.log(card.id);
                 html += `<div class="card">
                         <div class="card-remove">
                             <i class="fas fa-trash-alt"></i>
                         </div>
-                        <div id="card-id-${card.id}" class="card-title">${card.title}</div>
+                        <div data-card-id="${card.id}" class="card-title">${card.title}</div>
                     </div>`
             }
 
         }
     statusBody.innerHTML = html;
-        //add EventListeners to cards
         dom.addEventListenerToCards(cards);
 
     },
@@ -119,7 +117,6 @@ export let dom = {
         domObject.parentElement.innerHTML = newTitle;
     },
     displayCardInputField: function() {
-        console.log("ok");
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
         input.value = currentTitle;
@@ -128,15 +125,14 @@ export let dom = {
         this.appendChild(input);
     },
     saveCardData: function() {
-
+        let cardId = this.parentElement.dataset.Card.Id;
+        let newContent = this.value;
+        console.log(cardId);
+        console.log(newContent);
     },
     addEventListenerToCards: function(cards){
-        console.log(cards);
         for(let card of cards) {
-            console.log(card);
-            let cardDiv = document.querySelector(`#card-id-${card.id}`);
-            console.log(cardDiv);
-            console.log(dom.displayCardInputField);
+            let cardDiv = document.querySelector(`div[data-card-id = "${card.id}"]`);
             if (cardDiv){
                 cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
             }
