@@ -12,6 +12,7 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.showBoards(boards);
         });
+        console.log("is this the end?")
     },
     showBoards: function (boards) {
 
@@ -48,6 +49,7 @@ export let dom = {
             });
             dom.loadStatuses(board.id);
         }
+        console.log("showboard end")
     },
     loadStatuses: function (boardId) {
         // retrieves boards and makes showBoards called
@@ -68,12 +70,14 @@ export let dom = {
             statusColumn.innerHTML += Html;
             dom.loadCards(boardId, status.id);
         }
+        console.log("showstatus end")
     },
     loadCards: function (boardId, statusId) {
         // retrieves cards and makes showCards called
         dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards, boardId, statusId);
         });
+        console.log("load cards end")
     },
     showCards: function (cards, boardId, statusId) {
         // shows the cards of a board
@@ -83,8 +87,7 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                console.log(card.id);
-                html += `<div class="card">
+                html += `<div class="card" draggable="True">
                         <div class="card-remove">
                             <i class="fas fa-trash-alt"></i>
                         </div>
@@ -93,28 +96,7 @@ export let dom = {
             }
         }
     statusBody.innerHTML = html;
-        console.log('new status')
-
-
-
-
-        // let cardList = '';
-        //
-        // for(let card of cards){
-        //     cardList += `
-        //         <li>${card.title}</li>
-        //     `;
-        // }
-        //
-        // const outerHtml = `
-        //     <ul class="card-container">
-        //         ${cardList}
-        //     </ul>
-        // `;
-        //
-        // let cardsContainer = document.querySelector('#cards');
-        // cardsContainer.innerHTML = '';
-        // cardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        console.log("showcard end")
     },
     displayInputField: function(event) {
         let currentTitle = this.innerHTML;
