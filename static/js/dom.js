@@ -88,33 +88,22 @@ export let dom = {
                         <div class="card-remove">
                             <i class="fas fa-trash-alt"></i>
                         </div>
-                        <div class="card-title">${card.title}</div>
+                        <div id="card-id-${card.id}" class="card-title">${card.title}</div>
                     </div>`
             }
+
         }
     statusBody.innerHTML = html;
-        console.log('new status')
-
-
-
-
-        // let cardList = '';
-        //
-        // for(let card of cards){
-        //     cardList += `
-        //         <li>${card.title}</li>
-        //     `;
-        // }
-        //
-        // const outerHtml = `
-        //     <ul class="card-container">
-        //         ${cardList}
-        //     </ul>
-        // `;
-        //
-        // let cardsContainer = document.querySelector('#cards');
-        // cardsContainer.innerHTML = '';
-        // cardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        //add EventListeners to cards
+        for(let card of cards) {
+            console.log(card);
+            let cardDiv = document.querySelector(`#card-id-${card.id}`);
+            console.log(cardDiv);
+            console.log(dom.displayCardInputField);
+            if (cardDiv){
+                cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
+            }
+        }
     },
     displayInputField: function(event) {
         let currentTitle = this.innerHTML;
@@ -136,22 +125,17 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
-    // showStatusesOnBoard: async function() {
-    //     let statuses = await dataHandler.getStatuses()
-    //     .then(statuses => {
-    //         let Html = '';
-    //         for (let status of statuses) {
-    //             console.log(status.title);
-    //             Html += `<div class="board-columns">
-    //             <div class="board-column">
-    //                 <div class="board-column-title">${status.title}</div>
-    //                 <div class="board-column-content">
-    //
-    //                 </div>
-    //             </div>`
-    //         }
-    //         return Html;
-    //     })
-    // }
+    displayCardInputField: function() {
+        console.log("ok");
+        let currentTitle = this.innerHTML;
+        let input = document.createElement("input");
+        input.value = currentTitle;
+        input.addEventListener("enter", dom.saveCardData);
+        this.innerHTML = '';
+        this.appendChild(input);
+    },
+    saveCardData: function() {
+
+    },
 
 };
