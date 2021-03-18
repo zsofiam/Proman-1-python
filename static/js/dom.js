@@ -140,13 +140,45 @@ export let dom = {
         input.value = currentTitle;
         this.innerHTML = '';
         this.appendChild(input);
-        input.addEventListener('keypress', function (e) {
+        let cardId = input.parentElement.dataset.cardId;
+        dom.addEventListenersToInputField(input, cardId, currentTitle);
+
+        /*input.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                let cardId = this.parentElement.dataset.cardId;
                 let newContent = this.value;
                 dataHandler.modifyCardContent(cardId, newContent);
                 dom.displayNewCard(cardId, newContent);
             }
+            else if (e.key === 'Escape') {
+                console.log(e.key);
+                dom.displayNewCard(cardId, currentTitle);
+            }
+            else {
+                console.log(e.key + "pressed");
+            }
+        });
+        input.addEventListener('focusout', function (e) {
+            console.log(e);
+            dom.displayNewCard(cardId, currentTitle);
+        });*/
+    },
+    addEventListenersToInputField: function(input, cardId, currentTitle){
+        let enterPressed = false;
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                let newContent = this.value;
+                enterPressed = true;
+                dataHandler.modifyCardContent(cardId, newContent);
+                dom.displayNewCard(cardId, newContent);
+            }
+            if (e.key === 'Escape') {
+                console.log(e.key + " pressed");
+                dom.displayNewCard(cardId, currentTitle);
+            }
+        });
+        input.addEventListener('focusout', function (e) {
+            console.log(e);
+            dom.displayNewCard(cardId, currentTitle, enterPressed);
         });
     },
     addEventListenerToCardForEditing: function(cardId){
@@ -155,8 +187,11 @@ export let dom = {
                 cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
             }
     },
-    displayNewCard: function(cardId, newContent) {
-        let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
-        cardDiv.innerHTML = newContent;
+    displayNewCard: function(cardId, newContent, enterPressed) {
+        if(!enterPressed){
+            let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
+            cardDiv.innerHTML = newContent;
+        }
+
     }
 };
