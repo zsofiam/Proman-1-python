@@ -117,12 +117,14 @@ export let dom = {
          
                             <i class="fas fa-trash-alt"></i>
                         </div>
-                        <div class="card-title">${card.title}</div>
+                        <div data-card-id="${card.id}" class="card-title">${card.title}</div>
                     </div>`
             }
         }
         statusBody.innerHTML = html;
         for (let card of cards){
+            dom.addEventListenerToCardForEditing(card.id);
+
             if (card.status_id === statusId){
                 let cardRemoveBtn = document.querySelector(`#card-remove-${card.id}`);
                 let draggableCard = document.getElementById(`card-${card.id}`);
@@ -172,4 +174,32 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
+
+    displayCardInputField: function() {
+        let currentTitle = this.innerHTML;
+        let input = document.createElement("input");
+        console.log(this.parentElement);
+        let parent = this.parentElement;
+        input.value = currentTitle;
+        this.innerHTML = '';
+        this.appendChild(input);
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                let cardId = this.parentElement.dataset.cardId;
+                let newContent = this.value;
+                dataHandler.modifyCardContent(cardId, newContent);
+                dom.displayNewCard(cardId, newContent);
+            }
+        });
+    },
+    addEventListenerToCardForEditing: function(cardId){
+            let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
+            if (cardDiv){
+                cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
+            }
+    },
+    displayNewCard: function(cardId, newContent) {
+        let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
+        cardDiv.innerHTML = newContent;
+    }
 };

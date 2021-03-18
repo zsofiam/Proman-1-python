@@ -80,6 +80,13 @@ export let dataHandler = {
     modifyBoardTitle: function(boardId, newTitle, callback){
         const data = { id: boardId.toString(),
             title: newTitle };
-        this._api_post('/modify-board-title',data,() => {})
-    }
+        this._api_post('/modify-board-title',data,(response) => {
+            console.log(response)})
+    },
+    modifyCardContent: function(cardId, newContent, callback){
+        const data = { id: cardId,
+            title: newContent };
+        this._api_post(`/edit-card/${cardId}`, data,() => {
+        })}
+
 };
