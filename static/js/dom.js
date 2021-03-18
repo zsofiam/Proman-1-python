@@ -1,8 +1,6 @@
 // It uses data_handler.js to visualize elements
 import { dataHandler } from "./data_handler.js";
 
-
-
 export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
@@ -33,12 +31,17 @@ export let dom = {
         boardContainer.classList.add("board-container");
         boardContainer.innerHTML = '';
         boardContainer.insertAdjacentHTML( 'beforeend', outerHtml);
+
         // Add event listeners to board titles
         for(let board of boards) {
             let titleSpan = document.querySelector(`span[data-id = "${board.id}"]`);
             let closeBoardBtn = document.querySelector(`#board-close-${board.id}`);
             let boardColumn = document.querySelector(`#board-column-${board.id}`);
             let addCardButton = document.getElementById(`board-add-${board.id}`);
+            addCardButton.addEventListener('click', function() {
+                dom.createCard(`${board.id}`);
+            });
+            // addCardButton.addEventListener('click', dom.displayInputField);
             titleSpan.addEventListener("dblclick", dom.displayInputField);
             closeBoardBtn.addEventListener('click', function() {
                 boardColumn.classList.toggle('hidden');
@@ -62,7 +65,7 @@ export let dom = {
         for (let status of statuses) {
             let statusColumn = document.querySelector(`#board-column-${boardId}`);
             statusColumn.innerHTML = '';
-            Html += `<div class="board-column">
+            Html += `<div class="board-column" data-id="${boardId}">
                         <div class="board-column-title">${status.title}</div>
                         <div class="board-column-content" id="status-${boardId}-${status.id}"></div>
                     </div>
@@ -87,16 +90,30 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
-                html += `<div class="card" draggable="True">
-                        <div class="card-remove">
+                html += `<div class="card" data-id="${card.id}" draggable="True">
+                        <div class="card-remove" id="card-remove-${card.id}">
+         
                             <i class="fas fa-trash-alt"></i>
                         </div>
                         <div class="card-title">${card.title}</div>
                     </div>`
             }
         }
-    statusBody.innerHTML = html;
-        console.log("showcard end")
+        statusBody.innerHTML = html;
+        for (let card of cards){
+            if (card.status_id === statusId){
+                let cardRemoveBtn = document.querySelector(`#card-remove-${card.id}`);
+                cardRemoveBtn.addEventListener('click', function() {
+                    dataHandler.deleteCard(`${card.id}`);
+                    dom.loadStatuses(boardId);
+                })
+            }
+        }
+         console.log("showcard end")
+    },
+    createCard: function(boardId) {
+        dataHandler.createNewCard(boardId) ;
+        dom.loadStatuses(boardId);
     },
     displayInputField: function(event) {
         let currentTitle = this.innerHTML;
@@ -118,22 +135,4 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
-    // showStatusesOnBoard: async function() {
-    //     let statuses = await dataHandler.getStatuses()
-    //     .then(statuses => {
-    //         let Html = '';
-    //         for (let status of statuses) {
-    //             console.log(status.title);
-    //             Html += `<div class="board-columns">
-    //             <div class="board-column">
-    //                 <div class="board-column-title">${status.title}</div>
-    //                 <div class="board-column-content">
-    //
-    //                 </div>
-    //             </div>`
-    //         }
-    //         return Html;
-    //     })
-    // }
-
 };
