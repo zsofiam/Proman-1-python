@@ -119,6 +119,9 @@ export let dom = {
     displayCardInputField: function() {
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
+        console.log(this.parentElement);
+        let parent = this.parentElement;
+        let boardId = parent.parentElement.dataset.id;
         input.value = currentTitle;
         this.innerHTML = '';
         this.appendChild(input);
@@ -126,9 +129,8 @@ export let dom = {
             if (e.key === 'Enter') {
                 let cardId = this.parentElement.dataset.cardId;
                 let newContent = this.value;
-                dataHandler.modifyCardContent(cardId, newContent,function(cardId, newContent){
-                    dom.displayNewCard(cardId, newContent);
-                });
+                dataHandler.modifyCardContent(cardId, newContent);
+                dom.displayNewCard(cardId, newContent);
             }
         });
     },
@@ -141,8 +143,11 @@ export let dom = {
         }
     },
     displayNewCard: function(cardId, newContent){
-        console.log(cardId);
-        console.log(newContent);
+
+        let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
+       
+        cardDiv.innerHTML = '';
+        cardDiv.innerHTML = newContent;
     }
 
 };

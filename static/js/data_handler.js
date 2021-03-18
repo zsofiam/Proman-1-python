@@ -82,7 +82,6 @@ export let dataHandler = {
     modifyCardContent: function(cardId, newContent, callback){
         const data = { id: cardId,
             title: newContent };
-        this._api_post(`/edit-card/${cardId}`, data,(response) => {
-            console.log(response)})
-    }
+        this._api_post(`/edit-card/${cardId}`, data,() => {
+    })}
 };
