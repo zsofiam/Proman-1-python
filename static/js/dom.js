@@ -95,15 +95,8 @@ export let dom = {
         }
     statusBody.innerHTML = html;
         //add EventListeners to cards
-        for(let card of cards) {
-            console.log(card);
-            let cardDiv = document.querySelector(`#card-id-${card.id}`);
-            console.log(cardDiv);
-            console.log(dom.displayCardInputField);
-            if (cardDiv){
-                cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
-            }
-        }
+        dom.addEventListenerToCards(cards);
+
     },
     displayInputField: function(event) {
         let currentTitle = this.innerHTML;
@@ -137,5 +130,17 @@ export let dom = {
     saveCardData: function() {
 
     },
+    addEventListenerToCards: function(cards){
+        console.log(cards);
+        for(let card of cards) {
+            console.log(card);
+            let cardDiv = document.querySelector(`#card-id-${card.id}`);
+            console.log(cardDiv);
+            console.log(dom.displayCardInputField);
+            if (cardDiv){
+                cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
+            }
+        }
+    }
 
 };
