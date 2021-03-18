@@ -138,6 +138,7 @@ def create_private_board():
 @json_response
 def modify_board_title():
     if request.method == 'POST':
+        print(request.get_json())
         if request.get_json():
             data = request.get_json()
             data_manager.modify_board_title(data)
@@ -145,8 +146,10 @@ def modify_board_title():
 
 @app.route("/edit-card/<int:card_id>", methods=['POST','GET'])
 @json_response
-def edit_card(card_id):
+def edit_card(card_id:int):
     if request.method == 'POST':
+        print("post on server")
+        print(request.get_json())
         if request.get_json():
             data = request.get_json()
             data_manager.modify_card_content(data, card_id)

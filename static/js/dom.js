@@ -126,7 +126,7 @@ export let dom = {
             if (e.key === 'Enter') {
                 let cardId = this.parentElement.dataset.cardId;
                 let newContent = this.value;
-                dataHandler.modifyCardContent(function(cardId, newContent){
+                dataHandler.modifyCardContent(cardId, newContent,function(cardId, newContent){
                     dom.displayNewCard(cardId, newContent);
                 });
             }
