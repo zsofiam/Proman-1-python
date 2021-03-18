@@ -90,6 +90,4 @@ export let dataHandler = {
         this._api_post(`/edit-card/${cardId}`, data,() => {
     })}
 
-    }
-
 };
