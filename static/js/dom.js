@@ -96,7 +96,7 @@ export let dom = {
         dom.addEventListenerToCards(cards);
 
     },
-    displayInputField: function(event) {
+    displayInputField: function() {
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
         input.value = currentTitle;
@@ -120,15 +120,17 @@ export let dom = {
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
         input.value = currentTitle;
-        input.addEventListener("enter", dom.saveCardData);
         this.innerHTML = '';
         this.appendChild(input);
-    },
-    saveCardData: function() {
-        let cardId = this.parentElement.dataset.Card.Id;
-        let newContent = this.value;
-        console.log(cardId);
-        console.log(newContent);
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                let cardId = this.parentElement.dataset.cardId;
+                let newContent = this.value;
+                dataHandler.modifyCardContent(function(cardId, newContent){
+                    dom.displayNewCard(cardId, newContent);
+                });
+            }
+        });
     },
     addEventListenerToCards: function(cards){
         for(let card of cards) {
@@ -137,6 +139,10 @@ export let dom = {
                 cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
             }
         }
+    },
+    displayNewCard: function(cardId, newContent){
+        console.log(cardId);
+        console.log(newContent);
     }
 
 };

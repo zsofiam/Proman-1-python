@@ -78,19 +78,12 @@ export let dataHandler = {
             title: newTitle };
         this._api_post('/modify-board-title',data,(response) => {
             console.log(response)})
-       /* fetch('/modify-board-title', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });*/
+    },
+    modifyCardContent: function(cardId, newContent, callback){
+        console.log("modify");
+        const data = { id: cardId.toString(),
+            title: newContent };
+        this._api_post(`/edit-card/${cardId}`,data,(response) => {
+            console.log(response)})
     }
 };
