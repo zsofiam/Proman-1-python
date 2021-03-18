@@ -82,6 +82,7 @@ export let dataHandler = {
             title: newTitle };
         this._api_post('/modify-board-title',data,(response) => {
             console.log(response)})
+
       
     },
     modifyCardContent: function(cardId, newContent, callback){
@@ -89,5 +90,6 @@ export let dataHandler = {
             title: newContent };
         this._api_post(`/edit-card/${cardId}`, data,() => {
     })}
+
 
 };
