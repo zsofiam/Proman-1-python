@@ -75,6 +75,12 @@ def modify_board_title(cursor: RealDictCursor, data):
 
 
 @database_common.connection_handler
+def modify_card_content(cursor: RealDictCursor, data, card_id):
+    print(data.get('id'))
+    print(data.get('title'))
+    cursor.execute("UPDATE cards SET title = %s WHERE id = %s;", (data.get("title"), card_id,))
+
+    
 def create_card(cursor: RealDictCursor, data):
     cursor.execute("INSERT INTO cards (board_id, status_id) VALUES (%s, '1');", [data.get('board_id')])
 

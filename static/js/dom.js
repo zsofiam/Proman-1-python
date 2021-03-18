@@ -86,14 +86,17 @@ export let dom = {
         let html = '';
         for (let card of cards){
             if (card.status_id === statusId){
+
                 html += `<div class="card" data-id="${card.id}">
                         <div class="card-remove" id="card-remove-${card.id}">
                             <i class="fas fa-trash-alt"></i>
                         </div>
-                        <div class="card-title">${card.title}</div>
+                        <div data-card-id="${card.id}" class="card-title">${card.title}</div>
                     </div>`
             }
+
         }
+
         statusBody.innerHTML = html;
         for (let card of cards){
             if (card.status_id === statusId){
@@ -108,8 +111,9 @@ export let dom = {
     createCard: function(boardId) {
         dataHandler.createNewCard(boardId) ;
         dom.loadStatuses(boardId);
+
     },
-    displayInputField: function(event) {
+    displayInputField: function() {
         let currentTitle = this.innerHTML;
         let input = document.createElement("input");
         input.value = currentTitle;
@@ -129,4 +133,39 @@ export let dom = {
     displaySpanWithNewTitle: function(newTitle, domObject){
         domObject.parentElement.innerHTML = newTitle;
     },
+
+    displayCardInputField: function() {
+        let currentTitle = this.innerHTML;
+        let input = document.createElement("input");
+        console.log(this.parentElement);
+        let parent = this.parentElement;
+        let boardId = parent.parentElement.dataset.id;
+        input.value = currentTitle;
+        this.innerHTML = '';
+        this.appendChild(input);
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                let cardId = this.parentElement.dataset.cardId;
+                let newContent = this.value;
+                dataHandler.modifyCardContent(cardId, newContent);
+                dom.displayNewCard(cardId, newContent);
+            }
+        });
+    },
+    addEventListenerToCards: function(cards){
+        for(let card of cards) {
+            let cardDiv = document.querySelector(`div[data-card-id = "${card.id}"]`);
+            if (cardDiv){
+                cardDiv.addEventListener("dblclick",  dom.displayCardInputField);
+            }
+        }
+    },
+    displayNewCard: function(cardId, newContent){
+
+        let cardDiv = document.querySelector(`div[data-card-id = "${cardId}"]`);
+       
+        cardDiv.innerHTML = '';
+        cardDiv.innerHTML = newContent;
+    }
+
 };
