@@ -88,8 +88,9 @@ def delete_card(cursor: RealDictCursor, data):
 
 @database_common.connection_handler
 def modify_card_content(cursor: RealDictCursor, data, card_id):
-    print(data.get('id'))
-    print(data.get('title'))
     cursor.execute("UPDATE cards SET title = %s WHERE id = %s;", (data.get("title"), card_id,))
 
 
+@database_common.connection_handler
+def update_card_status(cursor: RealDictCursor, data):
+    cursor.execute("UPDATE cards SET board_id = %s, status_id = %s WHERE id = %s;", (int(data.get("boardId")), int(data.get("statusId")), int(data.get("cardId")),))

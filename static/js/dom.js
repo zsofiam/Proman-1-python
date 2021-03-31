@@ -66,7 +66,7 @@ export let dom = {
             let title = status.title.toUpperCase();
             Html += `<div class="board-column" data-id="${boardId}">
                         <div class="board-column-title">${title}</div>
-                        <div class="board-column-content" id="status-${boardId}-${status.id}"></div>
+                        <div class="board-column-content" data-board-id="${boardId}" data-status-id="${status.id}" id="status-${boardId}-${status.id}"></div>
                     </div>
             `
             statusColumn.innerHTML += Html;
@@ -81,6 +81,7 @@ export let dom = {
         }
     },
     dragEnterCard: function (e){
+
             e.preventDefault();
 
     },
@@ -91,9 +92,19 @@ export let dom = {
 
     },
     dropCard: function (e){
-        let card = document.querySelector(".dragged");
-        this.appendChild(card);
         e.preventDefault();
+        let card = document.querySelector(".dragged");
+        let boardId = this.dataset.boardId;
+        let statusId = this.dataset.statusId;
+        this.appendChild(card);
+        let cardId = this.lastChild.dataset.id;
+
+        let data = {
+            "boardId" : boardId,
+            "statusId" : statusId,
+            "cardId" : cardId
+        }
+        dataHandler._api_post("/edit-card-status",data, function(){});
     },
     loadCards: function (boardId, statusId) {
         // retrieves cards and makes showCards called
@@ -199,12 +210,12 @@ export let dom = {
                 dom.displayNewCard(cardId, newContent);
             }
             if (e.key === 'Escape') {
-                console.log(e.key + " pressed");
+
                 dom.displayNewCard(cardId, currentTitle);
             }
         });
         input.addEventListener('focusout', function (e) {
-            console.log(e);
+
             dom.displayNewCard(cardId, currentTitle, enterPressed);
         });
     },
