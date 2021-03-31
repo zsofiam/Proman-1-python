@@ -3,6 +3,7 @@
 {% block content %}
     <h1>ProMan</h1>
     <div class="center-items">
+    <button id="refresh"><i class="fas fa-sync-alt"></i></button>
     {% if username is none %}
         <form action="/register" method="get"><input type="submit" value="Register"></form>
         <form action="/login" method="get"><input type="submit" value="Login"></form>
