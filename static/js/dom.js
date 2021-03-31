@@ -4,6 +4,10 @@ import { dataHandler } from "./data_handler.js";
 export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
+        document.getElementById('refresh').addEventListener('click', dom.refresh);
+    },
+    refresh: function () {
+        dom.loadBoards();
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
