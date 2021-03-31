@@ -92,12 +92,6 @@ def get_cards_for_board(board_id: int):
     return cards
 
 
-def main():
-    app.run(debug=True)
-
-    # Serving the favicon
-    with app.app_context():
-        app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
 
 
 @app.route("/create-board", methods=['GET', 'POST'])
@@ -164,11 +158,26 @@ def delete_card():
 @json_response
 def edit_card(card_id:int):
     if request.method == 'POST':
-        print("post on server")
-        print(request.get_json())
         if request.get_json():
             data = request.get_json()
             data_manager.modify_card_content(data, card_id)
+
+
+@app.route("/edit-card-status", methods=['GET', 'POST'])
+@json_response
+def edit_card_status():
+    if request.method == 'POST':
+        if request.get_json():
+            data = request.get_json()
+            data_manager.update_card_status(data)
+
+
+def main():
+    app.run(debug=True)
+
+    # Serving the favicon
+    with app.app_context():
+        app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
 
 
 if __name__ == '__main__':
